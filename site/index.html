@@ -16,6 +16,8 @@
 <meta name="twitter:title" content="E = ω²R³ — orbits without mass and without G">
 <meta name="twitter:description" content="Enter period and radius. The kilogram cancels.">
 <link rel="canonical" href="https://ew2r3.org/">
+<link rel="icon" type="image/png" sizes="1024x1024" href="/assets/favicon-ew2r3-v1.png">
+<link rel="apple-touch-icon" href="/assets/favicon-ew2r3-v1.png">
 <title>E = ω²R³ — orbits without mass and without G | Ew2R3.org</title>
 <script defer src="/assets/config.js"></script>
 <script defer src="/assets/analytics.js"></script>
@@ -249,17 +251,32 @@
     body.card-open #dimline,body.card-open #kepler,body.card-open #gfix{display:none}
   }
   @media (max-width:640px){
-    #hint{top:100px;left:14px;max-width:calc(100vw - 28px);padding:9px 12px}
+    #eqbar{top:8px;left:calc(50% + 28px);right:auto;transform:translateX(-50%);
+      max-width:calc(100vw - 84px);padding:6px 8px;font-size:11.5px;gap:4px;white-space:nowrap}
+    #eqbar .e{font-size:14px}
+    #noMass{top:44px;left:calc(50% + 28px);right:auto;transform:translateX(-50%);white-space:nowrap}
+    body.field-panel-open #eqbar,body.field-panel-open #noMass{
+      left:calc(50% + 28px);right:auto;transform:translateX(-50%)}
+    body.site-drawer-open #eqbar,body.site-drawer-open #noMass,
+    body.site-drawer-open #top-right,body.site-drawer-open #hint{display:none}
+    #hint{top:104px;left:14px;max-width:calc(100vw - 28px);padding:9px 12px}
     #hint h1{margin:0;font-size:12px}
     #hint p{display:none}
     #dimline,#kepler,#gfix{display:none}
-    #card{left:14px;right:14px;width:auto;top:auto;bottom:96px;max-height:44vh}
+    #card{left:10px;right:10px;width:auto;top:68px;bottom:10px;max-height:none}
     #top-right{top:auto;bottom:14px;right:14px;left:14px;justify-content:flex-end}
-    #bar{bottom:60px;width:auto;max-width:calc(100vw - 28px);flex-wrap:nowrap}
-    #bar .sep,#clock,#b-date,#b-now,#b-orbits,#b-moonorb,#b-scale{display:none}
-    #fpanel{left:10px;right:10px;bottom:116px;width:auto;max-height:34dvh;border-radius:12px}
+    #bar{bottom:60px;width:calc(100vw - 20px);max-width:none;flex-wrap:nowrap;
+      justify-content:flex-start;max-height:none;overflow-x:auto;overflow-y:hidden;
+      -webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;touch-action:pan-x;
+      scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.22) transparent}
+    #bar>*{flex:0 0 auto}
+    #bar::-webkit-scrollbar{height:3px}
+    #bar::-webkit-scrollbar-thumb{background:rgba(255,255,255,.22);border-radius:3px}
+    #bar .sep{display:none}
+    #fpanel{left:10px;right:10px;bottom:64px;width:auto;max-height:calc(100dvh - 132px);border-radius:12px}
     #fpanel .bd{padding:9px 11px;gap:7px}
     #fpanel .hd{padding:9px 11px;position:sticky;top:0;z-index:2;background:var(--panel-2)}
+    body.card-open #bar,body.field-panel-open #bar{display:none}
   }
   @media (max-width:900px) and (orientation:landscape){
     #fpanel{left:10px;right:auto;bottom:10px;width:min(320px,44vw);max-height:calc(100dvh - 20px)}
@@ -404,10 +421,10 @@
     </div>
     <div><label data-i18n="frange">What to show</label>
       <div class="row">
-        <button class="btn on" id="f-rng-near" data-i18n="frangeNear">transition to radial</button>
+        <button class="btn" id="f-rng-near" data-i18n="frangeNear">transition to radial</button>
       </div>
       <div class="row" style="margin-top:6px">
-        <button class="btn" id="f-rng-full" data-i18n="frangeFull">whole vortex</button>
+        <button class="btn on" id="f-rng-full" data-i18n="frangeFull">entire E-field</button>
       </div>
     </div>
     <div><label data-i18n="fmark">Reference shells</label>
@@ -1607,9 +1624,9 @@ const FIELD = {
   running:true,                     // поле останавливается отдельной кнопкой
   pair:true,  pairWith:"earth/Moon", pairMode:"star",   // пара увімкнена одразу: список другого тіла заповнений,
               //   а вибір того самого значення не викликає change — і поле другого тіла не з'являлось   // "star" — тело+звезда, "moon" — планета+спутник
-  range:"near",                     // "near" — переход к радиальному; "full" — весь эфироворот
+  range:"full",                     // "near" — перехід до радіального; "full" — усе E-поле
   autoTime:true,                    // подбирать сжатие времени под тело
-  mkSurface:true, mkBand:true, mkSync:true, mkProbe:true, mkVortex:false, mkLaplace:true,  // каждая оболочка убирается отдельно
+  mkSurface:true, mkBand:true, mkSync:true, mkProbe:true, mkVortex:true, mkLaplace:true,  // кожна оболонка вмикається окремо
   timeScale:900,                    // модельных секунд на секунду реального времени
   RESIST_W:0.0417,                  // канон: 0.025/0.60
   TANGENT_FLOOR:0.08, RADIAL_SCALE:0.65,
@@ -2766,11 +2783,11 @@ function select(id,refresh){
     const mean=Es.reduce((a,c)=>a+c,0)/Es.length;
     const spread=(Math.max.apply(null,Es)/Math.min.apply(null,Es)-1)*100;
     f.innerHTML =
-      "E = ω²a³ &nbsp;(" + TX[L].fromEight + ")<br>"+
+      "E = ω²a³ &nbsp;(" + (TX[L]||TX.en).fromEight + ")<br>"+
       "<b>&lt;E&gt; = "+expo(mean,4)+" "+T.uM3S2+"</b><br>"+
-      TX[L].spread+
+      (TX[L]||TX.en).spread+
       "<span class='ok'>"+fmt(spread,3)+" %</span><br>"+
-      TX[L].tabGM+expo(GMSUN,4)+" "+T.uM3S2;
+      (TX[L]||TX.en).tabGM+expo(GMSUN,4)+" "+T.uM3S2;
   }else{
     const E=b.mu, R=b.Req, gg=E/(R*R), v1=Math.sqrt(E/R), ve=v1*Math.SQRT2;
     const dev=Math.abs(gg/b.gOff-1)*100;
@@ -2781,13 +2798,13 @@ function select(id,refresh){
         "<span class='ok'>(Δ "+fmt(dev,2)+" % "+T.vsOff+")</span><br>"+
       "v₁ = √(E/R) = <b>"+fmt(v1/1000,3)+"</b> "+T.uKms+"<br>"+
       "v₂ = √(2E/R) = <b>"+fmt(ve/1000,3)+"</b> "+T.uKms+"<br>"+
-      "<span style='color:#8d97ab'>"+TX[L].heliocentric(expo(Eo,4)+" "+T.uM3S2, fmt(devSun,3))+"</span>";
+      "<span style='color:#8d97ab'>"+(TX[L]||TX.en).heliocentric(expo(Eo,4)+" "+T.uM3S2, fmt(devSun,3))+"</span>";
   }
 
   const ul=$("c-facts"); ul.innerHTML="";
   (b.facts[L]||b.facts.en).forEach(x=>{ const li=document.createElement("li"); li.textContent=x; ul.appendChild(li); });
 
-  $("c-src").innerHTML = TX[L].cardSrc;
+  $("c-src").innerHTML = (TX[L]||TX.en).cardSrc;
   $("c-focus").textContent=(state.realScale && b.kind==="planet" && (b.moons||[]).length)
     ? (T.focusSystem||T.focus) : T.focus;
   card.classList.add("show");
@@ -2925,7 +2942,10 @@ function closeRuGate(){
 function applyLang(){
   const T=I18N[state.lang]||I18N.en;
   document.documentElement.lang=state.lang;
-  document.documentElement.dir=state.lang==="ar"?"rtl":"ltr";
+  // Keep the WebGL control surface left-to-right. Arabic copy is translated,
+  // but switching the whole document to RTL reorders fixed controls and can
+  // place the language selector underneath other overlays.
+  document.documentElement.dir="ltr";
   document.querySelectorAll("[data-i18n]").forEach(el=>{
     const k=el.dataset.i18n; if(T[k]!==undefined) el.innerHTML=T[k];
   });
@@ -3385,7 +3405,14 @@ setTimeout(()=>$("loading").classList.add("gone"),120);
   const drawer=document.getElementById("site-drawer");
   button.addEventListener("click",()=>{
     const open=drawer.classList.toggle("open");
+    document.body.classList.toggle("site-drawer-open",open);
     button.setAttribute("aria-expanded",String(open));
+  });
+  drawer.addEventListener("click",e=>{
+    if(!e.target.closest("a")) return;
+    drawer.classList.remove("open");
+    document.body.classList.remove("site-drawer-open");
+    button.setAttribute("aria-expanded","false");
   });
   document.getElementById("btn-field").addEventListener("click",()=>window.ewTrack("field_panel_open"));
   document.getElementById("btn-verify").addEventListener("click",()=>window.ewTrack("verify_e_open"));
