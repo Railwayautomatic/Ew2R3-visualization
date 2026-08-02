@@ -3226,7 +3226,8 @@ function updateClock(){
   const yrs=(state.jd-startJD)/365.25;
   const y=d.getUTCFullYear();
   const out = y<1800||y>2050;
-  $("clock").innerHTML="<b>"+d.getUTCDate()+" "+MON[L][d.getUTCMonth()]+" "+y+"</b><br>"+
+  const monthNames=MON[L]||MON.en;
+  $("clock").innerHTML="<b>"+d.getUTCDate()+" "+monthNames[d.getUTCMonth()]+" "+y+"</b><br>"+
     (yrs>=0?"+":"")+fmt(yrs,2)+" "+t("years")+
     (out?" <span class='warn'>· "+t("outrange")+"</span>":"");
 }
