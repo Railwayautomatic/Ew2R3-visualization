@@ -1,4 +1,10 @@
-# Ew2R3.org interactive visualization — v0.1.0-rc.1
+# Ew2R3.org interactive visualization — v0.1.0-rc.2
+
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21757889.svg)](https://doi.org/10.5281/zenodo.21757889)
+
+Current archived release: [v0.1.0-rc.2](https://doi.org/10.5281/zenodo.21757889).
+For citations spanning all software versions, use the concept DOI
+[`10.5281/zenodo.21757888`](https://doi.org/10.5281/zenodo.21757888).
 
 This package contains the tested static WebGL visualization, supporting pages,
 and browser regression tests published as the first public release candidate.
@@ -9,14 +15,14 @@ and browser regression tests published as the first public release candidate.
 - `tests/` — browser regression tests used for body pairs, scale transitions,
   orbital focus, responsive layout, routes, and languages;
 - `VERSION` — candidate version;
-- `CITATION.cff` — draft software citation metadata;
-- `ZENODO.json` — draft deposit metadata;
+- `CITATION.cff` — software citation metadata;
+- `.zenodo.json` and `ZENODO.json` — Zenodo deposit metadata;
 - `ASSET-PROVENANCE.md` — redistributed-asset and runtime-dependency audit;
 - `LICENSE.md` and `TRADEMARKS.md` — CC BY-NC-ND 4.0 release terms and reserved marks;
 - `SHA256SUMS.csv` — generated file inventory and hashes.
 
-The three existing article DOIs identify preprints, not this software. No
-software DOI exists until an approved repository release is deposited.
+The three existing article DOIs identify preprints, not this software. The
+software release has its own Zenodo DOI: `10.5281/zenodo.21757889`.
 
 ## Reproduce locally
 

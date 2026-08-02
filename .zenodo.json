@@ -8,9 +8,12 @@
       "orcid": "0009-0005-1975-1247"
     }
   ],
-  "version": "0.1.0-rc.2",
-  "publication_date": "2026-08-02",
   "access_right": "open",
   "license": "cc-by-nc-nd-4.0",
-  "keywords": ["Kepler third law", "orbital visualization", "E = omega^2 R^3", "WebGL"]
+  "keywords": [
+    "Kepler third law",
+    "orbital visualization",
+    "E = omega^2 R^3",
+    "WebGL"
+  ]
 }

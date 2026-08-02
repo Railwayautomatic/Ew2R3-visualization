@@ -2,12 +2,13 @@ cff-version: 1.2.0
 message: "If you use this software, please cite the versioned software release."
 title: "Ew2R3.org interactive visualization: E = omega^2 R^3"
 type: software
-version: 0.1.0-rc.1
-date-released: 2026-07-31
+version: 0.1.0-rc.2
+date-released: 2026-08-02
 authors:
   - family-names: Kuzmenko
     given-names: Dmytro
     orcid: "https://orcid.org/0009-0005-1975-1247"
 url: "https://ew2r3.org/"
-repository-code: "https://github.com/Railwayautomatic/Ew2R3.org"
+repository-code: "https://github.com/Railwayautomatic/Ew2R3-visualization"
+doi: "10.5281/zenodo.21757889"
 license: "CC-BY-NC-ND-4.0"
