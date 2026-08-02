@@ -64,7 +64,7 @@
       window.dataLayer = window.dataLayer || [];
       window.gtag = function () { window.dataLayer.push(arguments); };
       window.gtag("js", new Date());
-      window.gtag("config", id, { anonymize_ip: true });
+      window.gtag("config", id, { anonymize_ip: true, send_page_view: false });
       window.gtag("event", "page_view", { ...commonContext(), page_path: location.pathname, page_title: document.title });
       const script = document.createElement("script");
       script.async = true;
