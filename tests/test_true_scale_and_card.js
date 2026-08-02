@@ -1,18 +1,20 @@
 const { chromium } = require('playwright');
-const { pathToFileURL } = require('url');
-const path = require('path');
-
 (async () => {
-  const html = path.resolve(__dirname, '..', 'deployment-artifacts', '2026-07-31', 'claude-staging-site', 'index.html');
+  const target = process.argv[2] || process.env.EW2R3_TEST_URL || 'https://claude.rwa.bayern/ew2r3-preview/';
   const browser = await chromium.launch({
     headless: true,
     executablePath: 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe'
   });
   const page = await browser.newPage({ viewport: { width: 1565, height: 1100 } });
-  await page.goto(process.env.EW2R3_TEST_URL || pathToFileURL(html).href, { waitUntil: 'load' });
+  await page.goto(target, { waitUntil: 'load' });
   await page.waitForTimeout(1200);
 
-  await page.evaluate(() => select('sun'));
+  // Consent is intentionally modal. Resolve it so this geometry test exercises
+  // the scale control rather than timing out behind the privacy prompt.
+  await page.evaluate(() => document.querySelector('[data-consent="denied"]')?.click());
+  await page.waitForTimeout(100);
+
+  await page.evaluate(() => document.querySelector('.lbl[data-id="sun"]').click());
   await page.waitForTimeout(250);
   const overlap = await page.evaluate(() => {
     const card = document.querySelector('#card').getBoundingClientRect();

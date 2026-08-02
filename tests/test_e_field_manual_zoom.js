@@ -1,9 +1,5 @@
 const { chromium } = require('playwright');
-const { pathToFileURL } = require('url');
-const path = require('path');
-
-const html = path.resolve(__dirname, '..', 'deployment-artifacts', '2026-07-31', 'claude-staging-site', 'index.html');
-const target = process.env.EW2R3_TEST_URL || pathToFileURL(html).href;
+const target = process.argv[2] || process.env.EW2R3_TEST_URL || 'https://claude.rwa.bayern/ew2r3-preview/';
 
 (async()=>{
   const browser=await chromium.launch({headless:true,executablePath:'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe'});

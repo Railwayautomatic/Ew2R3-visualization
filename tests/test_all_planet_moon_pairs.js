@@ -12,7 +12,7 @@ const planetFilter = process.argv[3] || '';
   const errors = [];
   page.on('pageerror', err => errors.push(err.message));
   await page.goto(url, { waitUntil: 'networkidle' });
-  await page.click('#btn-field');
+  await page.evaluate(() => document.querySelector('#btn-field').click());
   let pairs = await page.evaluate(`MOON_BODIES.reduce((a,m) => {
     if (!a.some(x => x.planet === m.parent.id)) a.push({planet:m.parent.id, moon:m.id});
     return a;

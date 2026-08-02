@@ -5,22 +5,22 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="description" content="Compute an orbit from period and radius alone — no mass, no G. Interactive verification across the eight planets.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://claude.rwa.bayern/ew2r3-preview/">
+<meta property="og:url" content="https://ew2r3.org/">
 <meta property="og:title" content="E = ω²R³ — orbits without mass and without G">
 <meta property="og:description" content="Enter period and radius. Get the orbital parameter. The kilogram cancels — see it for yourself.">
-<meta property="og:image" content="https://claude.rwa.bayern/ew2r3-preview/assets/og-cover.png">
+<meta property="og:image" content="https://ew2r3.org/assets/og-cover.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:site_name" content="Ew2R3.org">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="E = ω²R³ — orbits without mass and without G">
 <meta name="twitter:description" content="Enter period and radius. The kilogram cancels.">
-<link rel="canonical" href="https://claude.rwa.bayern/ew2r3-preview/">
-<link rel="icon" type="image/png" sizes="1024x1024" href="/ew2r3-preview/assets/favicon-ew2r3-v1.png">
-<link rel="apple-touch-icon" href="/ew2r3-preview/assets/favicon-ew2r3-v1.png">
+<link rel="canonical" href="https://ew2r3.org/">
+<link rel="icon" type="image/png" sizes="1024x1024" href="/assets/favicon-ew2r3-v1.png">
+<link rel="apple-touch-icon" href="/assets/favicon-ew2r3-v1.png">
 <title>E = ω²R³ — orbits without mass and without G | Ew2R3.org</title>
-<script defer src="/ew2r3-preview/assets/config.js"></script>
-<script defer src="/ew2r3-preview/assets/analytics.js"></script>
+<script defer src="/assets/config.js"></script>
+<script defer src="/assets/analytics.js"></script>
 <style>
   :root{
     --bg:#05070d; --panel:rgba(14,18,28,.82); --panel-2:rgba(20,25,38,.92);
@@ -320,13 +320,13 @@
 <body>
 <button id="site-menu-button" aria-expanded="false" aria-controls="site-drawer" data-nav-key="menu">Menu</button>
 <nav id="site-drawer" aria-label="Site navigation">
-  <a class="current" href="/ew2r3-preview/" data-nav-key="visualize">Visualize</a>
-  <a href="/ew2r3-preview/verify/" data-nav-key="verify">Verify E</a>
-  <a href="/ew2r3-preview/research/" data-nav-key="research">Research</a>
-  <a href="/ew2r3-preview/faq/" data-nav-key="faq">FAQ</a>
-  <a href="/ew2r3-preview/about/" data-nav-key="about">About</a>
-  <a class="support" href="/ew2r3-preview/support/" data-nav-key="support">Support</a>
-  <a href="/ew2r3-preview/contact/" data-nav-key="contact">Contact</a>
+  <a class="current" href="/" data-nav-key="visualize">Visualize</a>
+  <a href="/verify/" data-nav-key="verify">Verify E</a>
+  <a href="/research/" data-nav-key="research">Research</a>
+  <a href="/faq/" data-nav-key="faq">FAQ</a>
+  <a href="/about/" data-nav-key="about">About</a>
+  <a class="support" href="/support/" data-nav-key="support">Support</a>
+  <a href="/contact/" data-nav-key="contact">Contact</a>
 </nav>
 <canvas id="gl"></canvas>
 <div id="labels"></div>
@@ -3159,9 +3159,9 @@ function fieldPairFrame(){
   const b=fieldBody(), b2=fieldBody2();
   if(!b2) return;
   state.fieldManualZoom=false;
-  // Далека пара лишається прив'язаною до ОБРАНОГО тіла. Для ієрархічної
-  // пари планета–супутник камера тримає центральне тіло, а не геометричну
-  // середину: модель не виводить барицентр із мас.
+  // Далека пара лишається прив'язаною до ОБРАНОГО тіла. Для близької
+  // пари кадр центрується між двома СПОСТЕРЕЖУВАНИМИ положеннями. Це лише
+  // геометричний центр кадру, не барицентр і не розрахунок із мас.
   const a=fieldAnchor(b).pos, c=fieldAnchor(b2).pos;
   const sep=Math.hypot(a[0]-c[0],a[1]-c[1],a[2]-c[2]);
   const ext1=fieldOuterRel(b)*fieldScaleFactor(b);     // намальований радіус поля ОБРАНОГО тіла
@@ -3178,9 +3178,7 @@ function fieldPairFrame(){
   const base=maxExt*2.4;
   if(nearby){
     state.follow=null;
-    const central=parentMoonPair ? (b.kind==="moon"?b2:b) : null;
-    state.tgtCenter=central ? fieldAnchor(central).pos.slice()
-      : [(a[0]+c[0])/2,(a[1]+c[1])/2,(a[2]+c[2])/2];
+    state.tgtCenter=[(a[0]+c[0])/2,(a[1]+c[1])/2,(a[2]+c[2])/2];
     /* У портретному вікні горизонтальний кут огляду значно вужчий.
        Без поправки Земля–Місяць у масштабі 1:1 формально центрувались,
        але один край пари виходив далеко за екран. */
@@ -3289,9 +3287,10 @@ function frame(now){
       (fb2.kind==="moon"&&fb2.parent.id===fb1.id));
     if(linked){
       const fa=fieldAnchor(fb1).pos, fc=fieldAnchor(fb2).pos;
-      const central=fb1.kind==="moon"?fb2:fb1;
       state.follow=null;
-      state.tgtCenter=fieldAnchor(central).pos.slice();
+      // Це рухомий геометричний центр кадру між фактичними положеннями тіл,
+      // не барицентр: жодна маса для нього не вводиться.
+      state.tgtCenter=[(fa[0]+fc[0])/2,(fa[1]+fc[1])/2,(fa[2]+fc[2])/2];
       /* Для локальної пари запізнення центра камери може бути більшим за
          саму дистанцію огляду й виштовхувати одне тіло за/позаду камери. */
       state.center=state.tgtCenter.slice();

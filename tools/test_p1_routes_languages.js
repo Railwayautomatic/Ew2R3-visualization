@@ -2,13 +2,13 @@ const { chromium } = require('playwright');
 
 const base = (process.argv[2] || 'https://claude.rwa.bayern/ew2r3-preview/').replace(/\/$/, '');
 const routes = ['about', 'contact', 'faq', 'privacy', 'research', 'support', 'thanks', 'verify'];
-const languages = ['en', 'uk', 'de', 'es'];
+const languages = ['en', 'uk', 'de', 'es', 'fr', 'it', 'pt', 'ar', 'ja'];
 const researchEnglishOnly = [
-  'Paper titles remain private while their structure, evidence, and publication order are refined.',
-  '15 works on the horizon · 10 already have prepared research material · the first wave is available as public preprints.'
+  'Future paper titles remain private while their structure, evidence, and publication order are refined.',
+  '15 works on the horizon'
 ];
-const privateArticleTitles = [
-  'The Gravitational Parameter E = ω²R³ as the Primary Constant of a Celestial System: Surface Gravity from Orbital Observations Without Masses or G',
+const publicArticleTitles = [
+  'The Gravitational Parameter E = ω²R³ as the Primary Constant of a Celestial System Surface Gravity from Orbital Observations Without Masses or G',
   'From the Hydrogen Atom to the Milky Way',
   'Radial Flow Interpretation of the Gravitational Invariant E = ω²R³: A Hydrodynamic Model for Free-Fall Acceleration Without Mass'
 ];
@@ -32,9 +32,10 @@ const privateArticleTitles = [
       for (const language of languages) {
         await page.locator('[data-language-picker]').selectOption(language);
         await page.waitForTimeout(20);
-        const state = await page.evaluate(({ language, original, route, researchEnglishOnly, privateArticleTitles }) => {
+        const state = await page.evaluate(({ language, original, route, researchEnglishOnly, publicArticleTitles }) => {
           const current = document.querySelector('main')?.innerText || '';
           const links = [...document.querySelectorAll('a[href]')].map(a => a.href);
+          const researchGateLinks = links.filter(href => href.includes('researchgate.net/publication/'));
           return {
             htmlLang: document.documentElement.lang,
             title: document.title,
@@ -43,35 +44,34 @@ const privateArticleTitles = [
             emptyMain: current.trim().length === 0,
             links,
             researchTranslated: route !== 'research' || language === 'en' || !researchEnglishOnly.some(text => current.includes(text)),
-            privateTitleVisible: route === 'research' && privateArticleTitles.some(text => document.documentElement.innerHTML.includes(text))
+            publicPreprintsPresent: route !== 'research' || publicArticleTitles.every(title => document.documentElement.innerHTML.includes(title)),
+            publicPreprintLinksPresent: route !== 'research' || researchGateLinks.length >= 3
           };
-        }, { language, original, route, researchEnglishOnly, privateArticleTitles });
+        }, { language, original, route, researchEnglishOnly, publicArticleTitles });
         results.push({ viewport, route, language, status: response?.status(), ...state });
       }
     }
     await page.close();
   }
-  const internal = [...new Set(results.flatMap(r => r.links).filter(h => h.startsWith(base)))];
+  const internal = [...new Set(results.flatMap(r => r.links)
+    .filter(href => href.startsWith(base))
+    .map(href => {
+      const url = new URL(href);
+      url.hash = '';
+      return url.href;
+    }))];
   const broken = [];
-  await Promise.all(internal.map(async href => {
+  for (const href of internal) {
     try {
       const response = await fetch(href, { signal: AbortSignal.timeout(10000) });
       if (!response || response.status >= 400) broken.push({ href, status: response?.status || 0 });
     } catch (error) {
       broken.push({ href, status: 0, error: String(error) });
     }
-  }));
-  await browser.close();
-  const sourceBodies = [];
-  for (const href of [`${base}/research/`, `${base}/assets/page-shell.js`]) {
-    const response = await fetch(href, { signal: AbortSignal.timeout(10000) });
-    sourceBodies.push({ href, status: response.status, body: await response.text() });
   }
-  const privateSourceLeaks = sourceBodies.flatMap(source => privateArticleTitles
-    .filter(title => source.body.includes(title))
-    .map(title => ({ href: source.href, title })));
-  const failed = results.filter(r => r.status !== 200 || r.htmlLang !== r.language || !r.changed || r.overflow || r.emptyMain || !r.researchTranslated || r.privateTitleVisible);
-  const report = { base, scenarios: results.length, passed: results.length - failed.length, failed, broken, errors, privateSourceLeaks };
+  await browser.close();
+  const failed = results.filter(r => r.status !== 200 || r.htmlLang !== r.language || !r.changed || r.overflow || r.emptyMain || !r.researchTranslated || !r.publicPreprintsPresent || !r.publicPreprintLinksPresent);
+  const report = { base, scenarios: results.length, passed: results.length - failed.length, failed, broken, errors };
   console.log(JSON.stringify(report, null, 2));
-  process.exitCode = failed.length || broken.length || errors.length || privateSourceLeaks.length ? 1 : 0;
+  process.exitCode = failed.length || broken.length || errors.length ? 1 : 0;
 })().catch(error => { console.error(error); process.exitCode = 1; });

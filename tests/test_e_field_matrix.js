@@ -19,14 +19,14 @@ fs.mkdirSync(outDir, { recursive: true });
   page.on('pageerror', err => errors.push(`pageerror: ${err.message}`));
   await page.goto(url, { waitUntil: 'networkidle' });
   await page.waitForTimeout(800);
-  await page.click('#btn-field');
+  await page.evaluate(() => document.querySelector('#btn-field').click());
   await page.waitForTimeout(500);
 
   async function scenario(name, first, second, range) {
     await page.selectOption('#f-body', first);
     await page.selectOption('#f-body2', second);
     if (!await page.locator('#f-pair').evaluate(el => el.classList.contains('on'))) {
-      await page.click('#f-pair');
+      await page.evaluate(() => document.querySelector('#f-pair').click());
     }
     await page.click(range === 'full' ? '#f-rng-full' : '#f-rng-near');
     // Camera interpolation is intentionally smooth; inspect the settled frame.

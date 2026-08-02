@@ -17,7 +17,7 @@ const onlyCase = process.argv[3] || '';
     page.on('pageerror',e=>errors.push(vp.name+': '+e.message));
     await page.goto(target,{waitUntil:'load'}); await page.waitForTimeout(600);
     page.setDefaultTimeout(3000);
-    await page.click('#btn-field'); await page.waitForTimeout(150);
+    await page.evaluate(() => document.querySelector('#btn-field').click()); await page.waitForTimeout(150);
     // Фіксуємо також орбітальний час: інакше цільовий центр пари
     // планета-супутник безперервно рухається і камера навмисно його переслідує.
     await page.evaluate(()=>{state.running=false});

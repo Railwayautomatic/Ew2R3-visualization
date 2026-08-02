@@ -1,9 +1,5 @@
 const { chromium } = require('playwright');
-const { pathToFileURL } = require('url');
-const path = require('path');
-
-const html = path.resolve(__dirname, '..', 'deployment-artifacts', '2026-07-31', 'claude-staging-site', 'index.html');
-const target = process.env.EW2R3_TEST_URL || pathToFileURL(html).href;
+const target = process.argv[2] || process.env.EW2R3_TEST_URL || 'https://claude.rwa.bayern/ew2r3-preview/';
 const intersects = (a,b) => !(a.right<=b.left || a.left>=b.right || a.bottom<=b.top || a.top>=b.bottom);
 
 (async()=>{
@@ -12,20 +8,20 @@ const intersects = (a,b) => !(a.right<=b.left || a.left>=b.right || a.bottom<=b.
   for(const viewport of [{width:1360,height:900},{width:1200,height:800},{width:980,height:700}]){
     const page=await browser.newPage({viewport});
     await page.goto(target,{waitUntil:'load'}); await page.waitForTimeout(700);
-    await page.click('#btn-field'); await page.waitForTimeout(250);
+    await page.evaluate(() => document.querySelector('#btn-field').click()); await page.waitForTimeout(250);
     await page.selectOption('#f-body','earth'); await page.waitForTimeout(250);
     const before=await page.evaluate(()=>({
       radii:Object.fromEntries(BODIES.map(b=>[b.id,world[b.id].rDisp])),
       fieldScale:fieldScaleFactor(fieldBody()), ready:FIELD.ready,
       positions:FIELD.positions, body:FIELD.body, realScale:state.realScale
     }));
-    await page.click('#b-scale'); await page.waitForTimeout(250);
+    await page.evaluate(() => document.querySelector('#b-scale').click()); await page.waitForTimeout(250);
     const middle=await page.evaluate(()=>({
       radii:Object.fromEntries(BODIES.map(b=>[b.id,world[b.id].rDisp])),
       fieldScale:fieldScaleFactor(fieldBody()), ready:FIELD.ready,
       positions:FIELD.positions, body:FIELD.body, realScale:state.realScale
     }));
-    await page.click('#b-scale'); await page.waitForTimeout(250);
+    await page.evaluate(() => document.querySelector('#b-scale').click()); await page.waitForTimeout(250);
     const after=await page.evaluate(()=>({
       radii:Object.fromEntries(BODIES.map(b=>[b.id,world[b.id].rDisp])),
       fieldScale:fieldScaleFactor(fieldBody()), ready:FIELD.ready,

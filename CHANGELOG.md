@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.1.0-rc.3 — 2026-08-02
+
+- Corrected the public artifact to use production-root URLs while preserving a
+  separate staging-prefix deployment transform.
+- Corrected pair framing to use the observed geometric midpoint without
+  implying a mass-derived barycentre.
+- Expanded the public route/language/mobile matrix to 144/144 checks.
+- Added deterministic consent handling to browser regression tests.
+- Preserved public preprint titles and DOI links while excluding future paper
+  titles from the public package.
+
 ## 0.1.0-rc.2 — 2026-08-02
 
 - Archived the public software release in Zenodo with version DOI

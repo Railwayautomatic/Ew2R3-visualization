@@ -23,6 +23,23 @@ cp -a "$SITE" "$BACKUP/site.before"
 find "$SITE" -mindepth 1 -maxdepth 1 -exec rm -rf -- {} +
 tar -xzf "$ARCHIVE" -C "$SITE"
 
+# The repository is the production/root artifact. Staging lives under a
+# subpath, so only the deployed copy receives staging URLs and path prefixes.
+python3 - "$SITE" <<'PY'
+from pathlib import Path
+import sys
+
+site = Path(sys.argv[1])
+for path in site.rglob("*.html"):
+    text = path.read_text(encoding="utf-8")
+    text = text.replace("https://ew2r3.org/", "https://claude.rwa.bayern/ew2r3-preview/")
+    for target in ("assets/", "verify/", "research/", "faq/", "about/", "support/", "contact/", "privacy/", "thanks/"):
+        text = text.replace(f'href="/{target}', f'href="/ew2r3-preview/{target}')
+        text = text.replace(f'src="/{target}', f'src="/ew2r3-preview/{target}')
+    text = text.replace('href="/"', 'href="/ew2r3-preview/"')
+    path.write_text(text, encoding="utf-8")
+PY
+
 docker exec ew2r3-preview nginx -t
 
 echo "BACKUP=$BACKUP"
