@@ -2,7 +2,7 @@
   const config = window.EW2R3_CONFIG || {};
   const provider = String(config.analyticsProvider || "").toLowerCase();
   const productionHosts = new Set(["ew2r3.org", "www.ew2r3.org"]);
-  const allowedHosts = new Set([...productionHosts, "claude.rwa.bayern", "localhost", "127.0.0.1"]);
+  const allowedHosts = new Set([...productionHosts, "localhost", "127.0.0.1"]);
   const utmKeys = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"];
   const params = new URLSearchParams(location.search);
   const incoming = {};

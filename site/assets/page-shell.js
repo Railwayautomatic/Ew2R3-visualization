@@ -191,7 +191,7 @@
     row.appendChild(picker);
   }
   const footer=document.querySelector("[data-site-footer]");
-  if(footer) footer.innerHTML=`<div class="shell footer-row"><span data-footer-text></span><span><a href="/ew2r3-preview/contact/">info@Ew2R3.org</a></span></div>`;
+  if(footer) footer.innerHTML=`<div class="shell footer-row"><span data-footer-text></span><span><a href="/contact/">info@Ew2R3.org</a></span></div>`;
   apply(code);
   window.addEventListener("DOMContentLoaded",()=>apply(code));
 })();

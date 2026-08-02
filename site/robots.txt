@@ -1,5 +1,5 @@
 User-agent: *
 Allow: /
-Disallow: /ew2r3-preview/thanks/
+Disallow: /thanks/
 
-Sitemap: https://claude.rwa.bayern/ew2r3-preview/sitemap.xml
+Sitemap: https://ew2r3.org/sitemap.xml
