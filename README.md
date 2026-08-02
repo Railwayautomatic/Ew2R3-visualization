@@ -3,9 +3,10 @@
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21757888.svg)](https://doi.org/10.5281/zenodo.21757888)
 
 This package contains the tested static WebGL visualization, supporting pages,
-and browser regression tests. Until the rc.3 Zenodo version DOI is minted, cite
-the software concept DOI [`10.5281/zenodo.21757888`](https://doi.org/10.5281/zenodo.21757888).
-The previous archived version is [rc.2](https://doi.org/10.5281/zenodo.21757889).
+and browser regression tests. Cite the evolving software record with the concept
+DOI [`10.5281/zenodo.21757888`](https://doi.org/10.5281/zenodo.21757888). The
+immutable `v0.1.0-rc.3` archive is
+[`10.5281/zenodo.21762453`](https://doi.org/10.5281/zenodo.21762453).
 
 ## Scope
 
