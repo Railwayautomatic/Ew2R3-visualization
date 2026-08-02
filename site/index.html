@@ -5,22 +5,22 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="description" content="Compute an orbit from period and radius alone — no mass, no G. Interactive verification across the eight planets.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://ew2r3.org/">
+<meta property="og:url" content="https://claude.rwa.bayern/ew2r3-preview/">
 <meta property="og:title" content="E = ω²R³ — orbits without mass and without G">
 <meta property="og:description" content="Enter period and radius. Get the orbital parameter. The kilogram cancels — see it for yourself.">
-<meta property="og:image" content="https://ew2r3.org/assets/og-cover.png">
+<meta property="og:image" content="https://claude.rwa.bayern/ew2r3-preview/assets/og-cover.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:site_name" content="Ew2R3.org">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="E = ω²R³ — orbits without mass and without G">
 <meta name="twitter:description" content="Enter period and radius. The kilogram cancels.">
-<link rel="canonical" href="https://ew2r3.org/">
-<link rel="icon" type="image/png" sizes="1024x1024" href="/assets/favicon-ew2r3-v1.png">
-<link rel="apple-touch-icon" href="/assets/favicon-ew2r3-v1.png">
+<link rel="canonical" href="https://claude.rwa.bayern/ew2r3-preview/">
+<link rel="icon" type="image/png" sizes="1024x1024" href="/ew2r3-preview/assets/favicon-ew2r3-v1.png">
+<link rel="apple-touch-icon" href="/ew2r3-preview/assets/favicon-ew2r3-v1.png">
 <title>E = ω²R³ — orbits without mass and without G | Ew2R3.org</title>
-<script defer src="/assets/config.js"></script>
-<script defer src="/assets/analytics.js"></script>
+<script defer src="/ew2r3-preview/assets/config.js"></script>
+<script defer src="/ew2r3-preview/assets/analytics.js"></script>
 <style>
   :root{
     --bg:#05070d; --panel:rgba(14,18,28,.82); --panel-2:rgba(20,25,38,.92);
@@ -50,7 +50,7 @@
   /* Верхній науковий блок закінчується рядком #gfix. Підказка починається нижче
      нього, а не лише нижче кнопки меню: інакше на широких екранах її текст
      накладався на довгий рядок розмірностей. */
-  #hint{top:150px;left:80px;max-width:340px;padding:13px 15px}
+  #hint{top:166px;left:80px;max-width:340px;padding:13px 15px}
   #hint h1{font-size:14px;font-weight:600;letter-spacing:.01em;margin-bottom:6px}
   #hint p{font-size:11.5px;line-height:1.55;color:var(--dim)}
   #hint .eq{margin-top:8px;padding-top:8px;border-top:1px solid var(--line);font-family:var(--mono);
@@ -81,11 +81,14 @@
   #noMass{position:fixed;top:66px;left:50%;transform:translateX(-50%);z-index:60;pointer-events:none;
     font-family:var(--mono);font-size:11px;letter-spacing:1.6px;text-transform:uppercase;
     color:#7fd6a8;text-shadow:0 0 12px rgba(90,220,150,.35);white-space:nowrap}
+  #worldview{position:fixed;top:83px;left:50%;transform:translateX(-50%);z-index:60;pointer-events:none;
+    font-family:var(--mono);font-size:9.5px;letter-spacing:.8px;text-transform:uppercase;
+    color:#ffd489;text-shadow:0 0 12px rgba(255,190,90,.28);white-space:nowrap}
   #dimline,#kepler{position:fixed;left:50%;transform:translateX(-50%);z-index:60;pointer-events:none;
     font-family:var(--mono);font-size:11px;letter-spacing:.3px;color:#8ea0bd;white-space:nowrap}
-  #dimline{top:86px}
-  #kepler{top:104px}
-  #gfix{position:fixed;top:122px;left:50%;transform:translateX(-50%);z-index:60;pointer-events:none;
+  #dimline{top:101px}
+  #kepler{top:119px}
+  #gfix{position:fixed;top:137px;left:50%;transform:translateX(-50%);z-index:60;pointer-events:none;
     font-family:var(--mono);font-size:11px;letter-spacing:.3px;color:#8ea0bd;white-space:nowrap}
   #gfix .mth{color:#c9d4e8}
   #gfix .yr{color:#ffd489;font-weight:700}
@@ -96,7 +99,8 @@
   #dimline .kg{color:#ff8a6a;font-weight:700;text-decoration:line-through;
     text-decoration-thickness:1.5px;text-shadow:0 0 10px rgba(255,120,80,.45)}
   @media (max-width:900px){ #noMass{top:44px;font-size:9px;letter-spacing:1px}
-    #dimline{top:60px;font-size:8.5px} #kepler{top:74px;font-size:8.5px} #gfix{top:88px;font-size:8.5px} }
+    #worldview{top:58px;font-size:8px;letter-spacing:.45px}
+    #dimline{top:73px;font-size:8.5px} #kepler{top:87px;font-size:8.5px} #gfix{top:101px;font-size:8.5px} }
   kbd{font-family:var(--mono);font-size:10px;background:rgba(255,255,255,.09);border:1px solid var(--line-2);
     border-radius:4px;padding:1px 5px;color:#cfd7e6}
 
@@ -112,7 +116,7 @@
   .seg button.on{background:rgba(127,176,255,.16);color:#fff}
   .lang-picker{font-family:var(--ui);font-size:11.5px;color:var(--txt);background:var(--panel);
     border:1px solid var(--line);border-radius:9px;padding:7px 28px 7px 10px;cursor:pointer;
-    backdrop-filter:blur(14px);color-scheme:dark}
+    min-height:34px;box-sizing:border-box;backdrop-filter:blur(14px);color-scheme:dark}
   .lang-picker:hover,.lang-picker:focus{background:var(--panel-2);border-color:var(--line-2);outline:none}
   .lang-picker option{background:#0d121c;color:#e8ecf5}
 
@@ -222,7 +226,7 @@
   #err{position:fixed;inset:0;display:none;align-items:center;justify-content:center;padding:30px;
     background:var(--bg);z-index:30;font-size:13px;line-height:1.7;color:#f3cfc7;text-align:center}
   @media (max-width:1200px){
-    #hint{top:150px;max-width:330px}
+    #hint{top:166px;max-width:330px}
     #hint p{font-size:11px}
     #dimline,#kepler,#gfix{font-size:9px}
     body.card-open #dimline,body.card-open #kepler,body.card-open #gfix{right:360px;font-size:8px}
@@ -233,11 +237,11 @@
   @media (max-width:1360px){
     /* Reserve a real lane for the right controls instead of letting them sit
        underneath the centred formula. */
-    #eqbar,#noMass{left:calc(50% - 105px)}
+    #eqbar,#noMass,#worldview{left:calc(50% - 105px)}
     body.card-open #top-right,body.field-panel-open #top-right{display:none}
     body.field-panel-open #hint{display:none}
     body.field-panel-open #dimline,body.field-panel-open #kepler,body.field-panel-open #gfix{display:none}
-    body.field-panel-open #eqbar,body.field-panel-open #noMass{
+    body.field-panel-open #eqbar,body.field-panel-open #noMass,body.field-panel-open #worldview{
       left:calc(310px + (100vw - 310px)/2);right:auto;transform:translateX(-50%)}
   }
   @media (max-width:900px){
@@ -255,9 +259,10 @@
       max-width:calc(100vw - 84px);padding:6px 8px;font-size:11.5px;gap:4px;white-space:nowrap}
     #eqbar .e{font-size:14px}
     #noMass{top:44px;left:calc(50% + 28px);right:auto;transform:translateX(-50%);white-space:nowrap}
-    body.field-panel-open #eqbar,body.field-panel-open #noMass{
+    #worldview{top:58px;left:calc(50% + 28px);right:auto;transform:translateX(-50%);max-width:calc(100vw - 84px);overflow:hidden;text-overflow:ellipsis}
+    body.field-panel-open #eqbar,body.field-panel-open #noMass,body.field-panel-open #worldview{
       left:calc(50% + 28px);right:auto;transform:translateX(-50%)}
-    body.site-drawer-open #eqbar,body.site-drawer-open #noMass,
+    body.site-drawer-open #eqbar,body.site-drawer-open #noMass,body.site-drawer-open #worldview,
     body.site-drawer-open #top-right,body.site-drawer-open #hint{display:none}
     #hint{top:104px;left:14px;max-width:calc(100vw - 28px);padding:9px 12px}
     #hint h1{margin:0;font-size:12px}
@@ -265,6 +270,8 @@
     #dimline,#kepler,#gfix{display:none}
     #card{left:10px;right:10px;width:auto;top:68px;bottom:10px;max-height:none}
     #top-right{top:auto;bottom:14px;right:14px;left:14px;justify-content:flex-end}
+    #top-right .btn,#top-right .lang-picker{height:44px;min-height:44px;box-sizing:border-box}
+    #top-right .lang-picker{padding-top:0;padding-bottom:0}
     #bar{bottom:60px;width:calc(100vw - 20px);max-width:none;flex-wrap:nowrap;
       justify-content:flex-start;max-height:none;overflow-x:auto;overflow-y:hidden;
       -webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;touch-action:pan-x;
@@ -285,12 +292,15 @@
     body.card-open #top-right{right:calc(min(330px,46vw) + 20px)}
     #bar{bottom:10px}
     body.field-panel-open #bar{left:auto;right:10px;transform:none;max-width:calc(100vw - min(320px,44vw) - 30px)}
-    body.field-panel-open #eqbar,body.field-panel-open #noMass{
+    body.field-panel-open #eqbar,body.field-panel-open #noMass,body.field-panel-open #worldview{
       left:calc(min(320px,44vw) + (100vw - min(320px,44vw))/2)}
   }
   #site-menu-button{position:fixed;left:14px;top:14px;z-index:71;min-width:44px;min-height:44px;
-    border:1px solid var(--line-2);border-radius:10px;background:rgba(10,14,24,.9);color:#fff;
-    font:600 12px var(--ui);cursor:pointer}
+    border:2px solid rgba(255,206,107,.88);border-radius:10px;background:rgba(67,45,14,.94);color:#ffe5b0;
+    box-shadow:0 0 0 1px rgba(255,206,107,.12),0 0 22px rgba(255,190,75,.26);
+    font:700 12px var(--ui);cursor:pointer;transition:background .15s,border-color .15s,box-shadow .15s,color .15s}
+  #site-menu-button:hover,#site-menu-button[aria-expanded="true"]{border-color:#ffd489;background:rgba(92,61,15,.97);color:#fff;
+    box-shadow:0 0 0 1px rgba(255,218,150,.2),0 0 28px rgba(255,190,75,.38)}
   #site-drawer{position:fixed;left:14px;top:66px;z-index:70;width:220px;padding:8px;display:none;
     background:rgba(10,14,24,.96);border:1px solid var(--line-2);border-radius:12px;
     box-shadow:0 18px 48px rgba(0,0,0,.65);backdrop-filter:blur(14px)}
@@ -310,13 +320,13 @@
 <body>
 <button id="site-menu-button" aria-expanded="false" aria-controls="site-drawer" data-nav-key="menu">Menu</button>
 <nav id="site-drawer" aria-label="Site navigation">
-  <a class="current" href="/" data-nav-key="visualize">Visualize</a>
-  <a href="/verify/" data-nav-key="verify">Verify E</a>
-  <a href="/research/" data-nav-key="research">Research</a>
-  <a href="/faq/" data-nav-key="faq">FAQ</a>
-  <a href="/about/" data-nav-key="about">About</a>
-  <a class="support" href="/support/" data-nav-key="support">Support</a>
-  <a href="/contact/" data-nav-key="contact">Contact</a>
+  <a class="current" href="/ew2r3-preview/" data-nav-key="visualize">Visualize</a>
+  <a href="/ew2r3-preview/verify/" data-nav-key="verify">Verify E</a>
+  <a href="/ew2r3-preview/research/" data-nav-key="research">Research</a>
+  <a href="/ew2r3-preview/faq/" data-nav-key="faq">FAQ</a>
+  <a href="/ew2r3-preview/about/" data-nav-key="about">About</a>
+  <a class="support" href="/ew2r3-preview/support/" data-nav-key="support">Support</a>
+  <a href="/ew2r3-preview/contact/" data-nav-key="contact">Contact</a>
 </nav>
 <canvas id="gl"></canvas>
 <div id="labels"></div>
@@ -335,6 +345,7 @@
   <span class="src">Ew2R3.org</span>
 </div>
 <div id="noMass" data-i18n="noMass">no masses · no G</div>
+<div id="worldview" data-i18n="worldview">Kepler's third law in its worldview form</div>
 <!-- Головний аргумент — РОЗМІРНІСТЬ, а не точність. У добутку G·M кілограм скорочується
      начисто: він входить у формулу лише щоб із неї вийти. Вимірюється чиста кінематика. -->
 <!-- Розмірність. Математику НЕ перекладаємо (SI-запис однаковий усіма мовами) — перекладається
@@ -891,6 +902,16 @@ Object.assign(I18N.es, {
   forientSun:'Capas 3D, no un disco plano. El ecuador solar está inclinado 7,25° respecto a la eclíptica; nodo ascendente 75,76° (J2000).',
   fclose:'Cerrar', fshells:'Capas'
 });
+Object.assign(I18N.en,{worldview:"KEPLER'S THIRD LAW IN ITS WORLDVIEW FORM"});
+Object.assign(I18N.uk,{worldview:"СВІТОГЛЯДНА ФОРМА ТРЕТЬОГО ЗАКОНУ КЕПЛЕРА"});
+Object.assign(I18N.ru,{worldview:"МИРОВОЗЗРЕНЧЕСКАЯ ФОРМА ТРЕТЬЕГО ЗАКОНА КЕПЛЕРА"});
+Object.assign(I18N.de,{worldview:"DAS DRITTE KEPLERSCHE GESETZ IN SEINER WELTANSCHAULICHEN FORM"});
+Object.assign(I18N.es,{worldview:"LA TERCERA LEY DE KEPLER EN SU FORMA CONCEPTUAL"});
+Object.assign(I18N.fr,{worldview:"LA TROISIÈME LOI DE KEPLER SOUS SA FORME CONCEPTUELLE"});
+Object.assign(I18N.it,{worldview:"LA TERZA LEGGE DI KEPLERO NELLA SUA FORMA CONCETTUALE"});
+Object.assign(I18N.pt,{worldview:"A TERCEIRA LEI DE KEPLER EM SUA FORMA CONCEITUAL"});
+Object.assign(I18N.ar,{worldview:"قانون كبلر الثالث بصيغته التصورية"});
+Object.assign(I18N.ja,{worldview:"ケプラー第三法則の世界観的な形"});
 /* ------------------------------------------------------------------- 2. МАТЕМАТИКА */
 const D2R = Math.PI/180;
 function m4(){return new Float32Array([1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1]);}
