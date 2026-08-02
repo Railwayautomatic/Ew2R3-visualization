@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /ew2r3-preview/thanks/
+
+Sitemap: https://claude.rwa.bayern/ew2r3-preview/sitemap.xml

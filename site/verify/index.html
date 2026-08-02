@@ -1,0 +1,35 @@
+﻿<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>E Calculator | Ew2R3.org</title><meta name="description" content="Calculate E = ω²R³ directly from an observed orbital period and radius.">
+<link rel="canonical" href="https://claude.rwa.bayern/ew2r3-preview/verify/"><meta property="og:type" content="website"><meta property="og:site_name" content="Ew2R3.org"><meta property="og:title" content="E Calculator | Ew2R3.org"><meta property="og:description" content="Calculate E = ω²R³ directly from an observed orbital period and radius."><meta property="og:url" content="https://claude.rwa.bayern/ew2r3-preview/verify/"><meta property="og:image" content="https://claude.rwa.bayern/ew2r3-preview/assets/og-cover.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="E Calculator | Ew2R3.org"><meta name="twitter:description" content="Calculate E = ω²R³ directly from an observed orbital period and radius.">
+<link rel="stylesheet" href="/ew2r3-preview/assets/site.css"><script defer src="/ew2r3-preview/assets/config.js"></script><script defer src="/ew2r3-preview/assets/analytics.js"></script><script defer src="/ew2r3-preview/assets/page-shell.js?v=20260731-7"></script><script defer src="/ew2r3-preview/assets/site.js"></script></head>
+<body><header class="site-header"><div class="shell header-row"><a class="brand" href="/ew2r3-preview/"><span>E</span>w2R3.org</a><button class="menu-button" data-menu aria-expanded="false" aria-controls="main-nav">Menu</button><nav class="nav" id="main-nav" data-nav aria-label="Primary"><a href="/ew2r3-preview/">Visualize</a><a aria-current="page" href="/ew2r3-preview/verify/">Verify E</a><a href="/ew2r3-preview/research/">Research</a><a href="/ew2r3-preview/faq/">FAQ</a><a href="/ew2r3-preview/about/">About</a><a class="support" href="/ew2r3-preview/support/">Support</a><a href="/ew2r3-preview/contact/">Contact</a></nav></div></header><main><div class="shell">
+<section class="hero"><div class="eyebrow">Independent calculation</div><h1>Verify E from an orbit</h1>
+<p class="lead">Enter an orbital period and semi-major axis. The browser calculates angular velocity and <span class="formula">E = ω²R³</span> without entering mass or G.</p></section>
+<section class="card" aria-labelledby="calculator-title"><h2 id="calculator-title">Calculator</h2>
+<form id="e-form"><div class="form-grid">
+<label>Orbital period T<input id="period" name="period" type="number" min="0" step="any" inputmode="decimal" required value="365.256"></label>
+<label>Period unit<select id="period-unit"><option value="day">days</option><option value="hour">hours</option><option value="second">seconds</option></select></label>
+<label>Semi-major axis R<input id="radius" name="radius" type="number" min="0" step="any" inputmode="decimal" required value="1"></label>
+<label>Radius unit<select id="radius-unit"><option value="au">AU</option><option value="km">km</option><option value="m">metres</option></select></label>
+</div><div class="actions"><button class="button primary" type="submit">Calculate E</button></div></form>
+<div class="result" aria-live="polite"><span>Result</span><output id="e-result">—</output><div class="meta" id="omega-result"></div></div>
+<p class="note">This calculation returns the E parameter of the central body or two-body system described by the orbit. It does not make E the parameter of the orbiting body.</p></section>
+</div></main><footer class="site-footer" data-site-footer></footer>
+<script>
+document.getElementById("e-form").addEventListener("submit", (event) => {
+  event.preventDefault();
+  const periodValue = Number(document.getElementById("period").value);
+  const radiusValue = Number(document.getElementById("radius").value);
+  const periodFactor = {second:1,hour:3600,day:86400}[document.getElementById("period-unit").value];
+  const radiusFactor = {m:1,km:1000,au:149597870700}[document.getElementById("radius-unit").value];
+  const T = periodValue * periodFactor, R = radiusValue * radiusFactor;
+  if (!(T > 0 && R > 0)) return;
+  const omega = 2 * Math.PI / T;
+  const E = omega * omega * R * R * R;
+  document.getElementById("e-result").textContent = E.toExponential(9) + " m³/s²";
+  document.getElementById("omega-result").textContent = "ω = " + omega.toExponential(9) + " rad/s";
+  if (window.ewTrack) window.ewTrack("input_own_data", {period_unit:document.getElementById("period-unit").value,radius_unit:document.getElementById("radius-unit").value});
+});
+document.getElementById("e-form").requestSubmit();
+</script></body></html>
+

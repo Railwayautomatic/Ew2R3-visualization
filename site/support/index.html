@@ -1,0 +1,23 @@
+﻿<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Support | Ew2R3.org</title><meta name="description" content="Support open visualization and research at Ew2R3.org.">
+<link rel="canonical" href="https://claude.rwa.bayern/ew2r3-preview/support/"><meta property="og:type" content="website"><meta property="og:site_name" content="Ew2R3.org"><meta property="og:title" content="Support | Ew2R3.org"><meta property="og:description" content="Support open visualization and research at Ew2R3.org."><meta property="og:url" content="https://claude.rwa.bayern/ew2r3-preview/support/"><meta property="og:image" content="https://claude.rwa.bayern/ew2r3-preview/assets/og-cover.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Support | Ew2R3.org"><meta name="twitter:description" content="Support open visualization and research at Ew2R3.org.">
+<link rel="stylesheet" href="/ew2r3-preview/assets/site.css"><script defer src="/ew2r3-preview/assets/config.js"></script><script defer src="/ew2r3-preview/assets/analytics.js"></script><script defer src="/ew2r3-preview/assets/page-shell.js?v=20260731-7"></script><script defer src="/ew2r3-preview/assets/site.js"></script></head>
+<body><header class="site-header"><div class="shell header-row"><a class="brand" href="/ew2r3-preview/"><span>E</span>w2R3.org</a><button class="menu-button" data-menu aria-expanded="false" aria-controls="main-nav">Menu</button><nav class="nav" id="main-nav" data-nav aria-label="Primary"><a href="/ew2r3-preview/">Visualize</a><a href="/ew2r3-preview/verify/">Verify E</a><a href="/ew2r3-preview/research/">Research</a><a href="/ew2r3-preview/faq/">FAQ</a><a href="/ew2r3-preview/about/">About</a><a class="support" aria-current="page" href="/ew2r3-preview/support/">Support</a><a href="/ew2r3-preview/contact/">Contact</a></nav></div></header><main><div class="shell"><section class="hero">
+<div class="eyebrow">Keep the work open</div><h1>Support Ew2R3.org</h1>
+<p class="lead">Voluntary support helps maintain the visualization, publish calculations and sources, translate the material, and prepare independent tests. Support does not buy access or influence scientific conclusions.</p>
+<div class="actions"><a id="patreon" class="button support" data-event="patreon_out" href="#" aria-disabled="true">Support on Patreon</a>
+<a id="direct" class="button" data-event="direct_donate_click" href="#" aria-disabled="true">Donate by card</a></div>
+</section></div></main><footer class="site-footer" data-site-footer></footer>
+<script>
+window.addEventListener("DOMContentLoaded", () => {
+  const bind = (id, url) => {
+    const el = document.getElementById(id);
+    if (!url) { el.addEventListener("click", e => e.preventDefault()); return; }
+    el.href = url; el.removeAttribute("aria-disabled"); el.target = "_blank"; el.rel = "noopener noreferrer";
+    el.textContent = id === "patreon" ? "Support on Patreon" : "Donate by card";
+  };
+  bind("patreon", window.EW2R3_CONFIG.patreonUrl);
+  bind("direct", window.EW2R3_CONFIG.directPaymentUrl);
+});
+</script></body></html>
+

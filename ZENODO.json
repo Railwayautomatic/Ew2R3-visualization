@@ -1,0 +1,16 @@
+{
+  "upload_type": "software",
+  "title": "Ew2R3.org interactive visualization: E = omega^2 R^3",
+  "description": "Versioned static WebGL visualization, calculation pages, language interface, and browser regression tests for the Ew2R3.org research programme.",
+  "creators": [
+    {
+      "name": "Kuzmenko, Dmytro",
+      "orcid": "0009-0005-1975-1247"
+    }
+  ],
+  "version": "0.1.0-rc.1",
+  "publication_date": "2026-08-02",
+  "access_right": "open",
+  "license": "cc-by-nc-nd-4.0",
+  "keywords": ["Kepler third law", "orbital visualization", "E = omega^2 R^3", "WebGL"]
+}
