@@ -6,7 +6,8 @@
 <div class="eyebrow">Keep the work open</div><h1>Support Ew2R3.org</h1>
 <p class="lead">Voluntary support helps maintain the visualization, publish calculations and sources, translate the material, and prepare independent tests. Support does not buy access or influence scientific conclusions.</p>
 <div class="actions"><a id="patreon" class="button support" data-event="patreon_out" href="#" aria-disabled="true">Support on Patreon</a>
-<a id="direct" class="button" data-event="direct_donate_click" href="#" aria-disabled="true">Donate by card</a></div>
+<a id="direct" class="button" data-event="direct_donate_click" href="#" aria-disabled="true">Donate by card</a>
+<a id="b2b" class="button" data-event="b2b_support_request" href="https://ew2r3.org/invoice-request/" title="Request an invoice">Request an invoice</a></div>
 </section></div></main><footer class="site-footer" data-site-footer></footer>
 <script>
 window.addEventListener("DOMContentLoaded", () => {
@@ -14,10 +15,11 @@ window.addEventListener("DOMContentLoaded", () => {
     const el = document.getElementById(id);
     if (!url) { el.addEventListener("click", e => e.preventDefault()); return; }
     el.href = url; el.removeAttribute("aria-disabled"); el.target = "_blank"; el.rel = "noopener noreferrer";
-    el.textContent = id === "patreon" ? "Support on Patreon" : "Donate by card";
+    el.textContent = id === "patreon" ? "Support on Patreon" : id === "direct" ? "Donate by card" : "Request an invoice";
   };
   bind("patreon", window.EW2R3_CONFIG.patreonUrl);
   bind("direct", window.EW2R3_CONFIG.directPaymentUrl);
+  bind("b2b", "https://ew2r3.org/invoice-request/");
 });
 </script></body></html>
 
